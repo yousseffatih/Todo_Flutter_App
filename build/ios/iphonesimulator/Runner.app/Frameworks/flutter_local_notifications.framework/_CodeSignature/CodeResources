@@ -6,11 +6,34 @@
 	<dict>
 		<key>Info.plist</key>
 		<data>
-		y6/o+RKX1HWxC2mpJtpCN3FEx9M=
+		ZDzlwkkCryNklv/RYMA64K/VZbk=
+		</data>
+		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
+		<data>
+		skpnEhxABqQoe6TUlnwuKk6Gpbg=
+		</data>
+		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
 		</data>
 	</dict>
 	<key>files2</key>
-	<dict/>
+	<dict>
+		<key>flutter_local_notifications_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			XzTUYyhVqj2UuciD0OC9C0Li0Qf2vBpKIFZJgMscXH4=
+			</data>
+		</dict>
+		<key>flutter_local_notifications_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bS2g2NkwIn1CjB2TY7CtbjoS4sm2jFzilxWKdBL8jDE=
+			</data>
+		</dict>
+	</dict>
 	<key>rules</key>
 	<dict>
 		<key>^.*</key>

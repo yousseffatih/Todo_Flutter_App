@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/db/db_helper.dart';
-import 'package:to_do_app/services/notification_services.dart';
 import 'package:to_do_app/services/theme_services.dart';
-import 'package:to_do_app/ui/pages/notification_screen.dart';
 import 'package:to_do_app/ui/theme.dart';
 
 import 'ui/pages/home_page.dart';
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
       theme: Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().theme,

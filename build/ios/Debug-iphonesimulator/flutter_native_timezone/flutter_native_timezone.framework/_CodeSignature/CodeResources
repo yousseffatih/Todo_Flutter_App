@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		zuH70+nFM42AJp6qFN3LuEiHRPk=
+		ODYEkTFuRLIAe9ibL5pdau1Lm0g=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -25,10 +25,6 @@
 	<dict>
 		<key>Headers/FlutterNativeTimezonePlugin.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			W+nK/47heu/CI1MQDOCioXkHbaQ=
-			</data>
 			<key>hash2</key>
 			<data>
 			yEO0dJqhZwK4zOwhU/s3g8y4SzDQ9i+tZ84jK1kXotE=
@@ -36,10 +32,6 @@
 		</dict>
 		<key>Headers/flutter_native_timezone-umbrella.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			cjMh2uqHIiADRpjGwcWskbPyRDc=
-			</data>
 			<key>hash2</key>
 			<data>
 			/Mc24tTJUgiylTSfrnBKO+cajazpQ3ruOgkjpxWJnUw=
@@ -47,10 +39,6 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			YwaxMHs9G5fJcHlN0C7/NtqOMCc=
-			</data>
 			<key>hash2</key>
 			<data>
 			3eaw5qIizwQ5KpLAQFusaWtZzea7WLArqX0wlhsoWVY=

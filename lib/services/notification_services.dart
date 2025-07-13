@@ -24,8 +24,8 @@ class NotifyHelper {
     _configureSelectNotificationSubject();
     await _configureLocalTimeZone();
     // await requestIOSPermissions(flutterLocalNotificationsPlugin);
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
@@ -37,12 +37,14 @@ class NotifyHelper {
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
-      iOS: initializationSettingsIOS,
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: (String? payload) async {
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
+        final String? payload = notificationResponse.payload;
         if (payload != null) {
           debugPrint('notification payload: ' + payload);
         }
@@ -54,9 +56,11 @@ class NotifyHelper {
   displayNotification({required String title, required String body}) async {
     print('doing test');
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-        'your channel id', 'your channel name', channelDescription: 'your channel description',
-        importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
+        'your channel id', 'your channel name',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high);
+    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
@@ -69,15 +73,13 @@ class NotifyHelper {
     );
   }
 
-  cancelNotification(Task task) async 
-  {
+  cancelNotification(Task task) async {
     flutterLocalNotificationsPlugin.cancel(task.id!);
   }
-  cancelAllNotification() async 
-  {
+
+  cancelAllNotification() async {
     flutterLocalNotificationsPlugin.cancelAll();
   }
-
 
   scheduledNotification(int hour, int minutes, Task task) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -85,10 +87,12 @@ class NotifyHelper {
       task.title,
       task.note,
       //tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-      _nextInstanceOfTenAM(hour, minutes ,  task.remind!,  task.repeat!,  task.date!),
+      _nextInstanceOfTenAM(
+          hour, minutes, task.remind!, task.repeat!, task.date!),
       const NotificationDetails(
         android: AndroidNotificationDetails(
-            'your channel id', 'your channel name', channelDescription: 'your channel description'),
+            'your channel id', 'your channel name',
+            channelDescription: 'your channel description'),
       ),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
@@ -98,58 +102,51 @@ class NotifyHelper {
     );
   }
 
-
-
-
-  tz.TZDateTime _nextInstanceOfTenAM(int hour, int minutes, int remind, String repeat, String date) {
+  tz.TZDateTime _nextInstanceOfTenAM(
+      int hour, int minutes, int remind, String repeat, String date) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
 
     var formatedDate = DateFormat.yMd().parse(date);
-    final tz.TZDateTime fd = tz.TZDateTime.from(formatedDate,tz.local);  
+    final tz.TZDateTime fd = tz.TZDateTime.from(formatedDate, tz.local);
 
     tz.TZDateTime scheduledDate =
         tz.TZDateTime(tz.local, fd.year, fd.month, fd.day, hour, minutes);
 
-    scheduledDate = afterRemind(remind, scheduledDate);    
+    scheduledDate = afterRemind(remind, scheduledDate);
 
     if (scheduledDate.isBefore(now)) {
-      if(repeat == "Daily" )
-      {
-        scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, (formatedDate.day)+1, hour, minutes);
+      if (repeat == "Daily") {
+        scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
+            (formatedDate.day) + 1, hour, minutes);
       }
-      if(repeat == "Weekly" )
-      {
-        scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, (formatedDate.day)+7, hour, minutes);
-
+      if (repeat == "Weekly") {
+        scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
+            (formatedDate.day) + 7, hour, minutes);
       }
-      if(repeat == "Monthly" )
-      {
-        scheduledDate = tz.TZDateTime(tz.local, now.year, (formatedDate.month)+1, formatedDate.day, hour, minutes);
+      if (repeat == "Monthly") {
+        scheduledDate = tz.TZDateTime(tz.local, now.year,
+            (formatedDate.month) + 1, formatedDate.day, hour, minutes);
       }
-      scheduledDate = afterRemind(remind, scheduledDate); 
+      scheduledDate = afterRemind(remind, scheduledDate);
     }
     print("final schuleDate = $scheduledDate");
-       
+
     return scheduledDate;
   }
 
   tz.TZDateTime afterRemind(int remind, tz.TZDateTime scheduledDate) {
-    if(remind == 5)
-    {
+    if (remind == 5) {
       scheduledDate = scheduledDate.subtract(const Duration(minutes: 5));
-    }    
-    if(remind == 10)
-    {
+    }
+    if (remind == 10) {
       scheduledDate = scheduledDate.subtract(const Duration(minutes: 10));
-    }    
-    if(remind == 15)
-    {
+    }
+    if (remind == 15) {
       scheduledDate = scheduledDate.subtract(const Duration(minutes: 15));
-    }    
-    if(remind == 20)
-    {
+    }
+    if (remind == 20) {
       scheduledDate = scheduledDate.subtract(const Duration(minutes: 20));
-    }    
+    }
     return scheduledDate;
   }
 
@@ -208,13 +205,15 @@ class NotifyHelper {
       ),
     ); 
  */
-    Get.dialog( Text(body!));
+    Get.dialog(Text(body!));
   }
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
       debugPrint('My payload is ' + payload);
-      await Get.to(() => NotificationScreen(paylod: payload,));
+      await Get.to(() => NotificationScreen(
+            paylod: payload,
+          ));
     });
   }
 }
